@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import storyblok from "@storyblok/astro";
 import { loadEnv } from "vite";
+import compressor from "astro-compressor";
 
 const env = loadEnv("", process.cwd(), "STORYBLOK");
 
@@ -20,5 +21,6 @@ export default defineConfig({
       },
       bridge: false,
     }),
+    compressor(),
   ],
 });
