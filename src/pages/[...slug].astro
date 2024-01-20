@@ -1,6 +1,7 @@
 ---
 import { useStoryblokApi } from "@storyblok/astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import { linkResponseSchema } from "../storyblok/types";
 
 export async function getStaticPaths() {
   const storyblokApi = useStoryblokApi();
@@ -8,10 +9,12 @@ export async function getStaticPaths() {
   const { data } = await storyblokApi.get("cdn/links", {
     version: import.meta.env.DEV ? "draft" : "published",
   });
-  let links = data.links;
-  links = Object.values(links);
+  const linksResponse = linkResponseSchema.parse(data);
+  const links = Object.values(linksResponse.links);
 
-  return links.map((link) => {
+  return links
+  .filter((link) => !link.is_folder)
+  .map((link) => {
     return {
       params: { slug: link.slug === 'home' ? undefined : link.slug },
     };

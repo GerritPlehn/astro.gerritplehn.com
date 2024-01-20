@@ -1,6 +1,7 @@
 ---
 import { storyblokEditable } from '@storyblok/astro'
 import { useStoryblokApi } from '@storyblok/astro'
+import { storiesResponseSchema } from "./types";
 
 const storyblokApi = useStoryblokApi();
 
@@ -9,7 +10,9 @@ const { data } = await storyblokApi.get('cdn/stories', {
   content_type: 'blogPost',
 })
 
-const posts = data.stories.map(story => {
+const blogPostList = storiesResponseSchema().parse(data)
+
+const posts = blogPostList.stories.map(story => {
   return {
     title: story.content.title,
     date: new Date(story.published_at).toLocaleDateString("en-US", {dateStyle: "full"}),
