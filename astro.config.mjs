@@ -11,11 +11,14 @@ export default defineConfig({
       components: {
         // Add your components here
         blogPost: "storyblok/BlogPost",
+        blogPostList: "storyblok/BlogPostList",
+        page: "storyblok/Page",
       },
       apiOptions: {
         // Choose your Storyblok space region
         region: "eu", // optional,  or 'eu' (default)
       },
+      bridge: false,
     }),
   ],
 });
